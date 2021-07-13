@@ -12,8 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +31,7 @@ public class ProjectResourceTest {
         project.setTitle("Title");
         project.setDescription("Description");
 
+        //Write project test
         mvc.perform(post("/api/v1/projects")//
                 .content(" {\"title\":\"Title\", \"description\":\"Description\"}")//
                 .contentType(MediaType.APPLICATION_JSON))//
@@ -40,6 +40,7 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Title"))//
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description"));
 
+        //Write task with state:Not started
         mvc.perform(post("/api/v1/tasks")//
                 .content(" {\"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"NOT STARTED\", \"startDate\":\"2021-07-22\", \"completedDate\":\"2021-07-30\" }")//
                 .contentType(MediaType.APPLICATION_JSON))//
@@ -52,6 +53,7 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2021-07-22"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("2021-07-30"));
 
+        //Write task with completed state
         mvc.perform(post("/api/v1/tasks")//
                 .content(" {\"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"COMPLETED\", \"startDate\":\"2021-07-22\", \"completedDate\":\"2021-07-30\" }")//
                 .contentType(MediaType.APPLICATION_JSON))//
@@ -64,13 +66,39 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2021-07-22"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("2021-07-30"));
 
+        //Delete the task with not started state (it should be deleted)
         mvc.perform(delete("/api/v1/tasks/1")//
                 .contentType(MediaType.APPLICATION_JSON))//
                 .andExpect(status().isOk());
 
+        //Delete the task with completed(it should fail)
         mvc.perform(delete("/api/v1/tasks/2")//
                 .contentType(MediaType.APPLICATION_JSON))//
                 .andExpect(status().isForbidden());
+
+        //Update the task with state not started
+        mvc.perform(put("/api/v1/tasks")//
+                .content(" {\"taskId\":\"2\", \"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"NOT STARTED\", \"startDate\":\"2021-07-22\", \"completedDate\":\"2021-07-30\" }")//
+                .contentType(MediaType.APPLICATION_JSON))//
+                .andExpect(status().isOk())//
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.taskId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Title"))//
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.projectId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.state").value("NOT STARTED"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2021-07-22"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("2021-07-30"));
+
+        //Delete the task 2 with not started state (it should be deleted)
+        mvc.perform(delete("/api/v1/tasks/2")//
+                .contentType(MediaType.APPLICATION_JSON))//
+                .andExpect(status().isOk());
+
+        //Delete the project, since all tasks are deleted the project should be deleted too.
+        mvc.perform(delete("/api/v1/projects/1")//
+                .contentType(MediaType.APPLICATION_JSON))//
+                .andExpect(status().isOk());
 
     }
 }
