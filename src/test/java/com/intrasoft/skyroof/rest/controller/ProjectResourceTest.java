@@ -32,8 +32,6 @@ public class ProjectResourceTest {
         project.setTitle("Title");
         project.setDescription("Description");
 
-
-
         mvc.perform(post("/api/v1/projects")//
                 .content(" {\"title\":\"Title\", \"description\":\"Description\"}")//
                 .contentType(MediaType.APPLICATION_JSON))//
@@ -73,8 +71,6 @@ public class ProjectResourceTest {
         mvc.perform(delete("/api/v1/tasks/2")//
                 .contentType(MediaType.APPLICATION_JSON))//
                 .andExpect(status().isForbidden());
-
-
 
     }
 }

@@ -23,9 +23,6 @@ import static java.util.Objects.nonNull;
 
 @RestController
 @CrossOrigin
-//@RequestMapping(path = RestConfig.API_URI + "/projects", //This is not working probably the produces and consumes
-//                produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-//                consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
 @RequestMapping(path = RestConfig.API_URI)
 

@@ -81,7 +81,7 @@ public class Task extends Creation implements Serializable
     public void setProjectId(Long projectId){ this.projectId = projectId; }
 
     public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate){ this.startDate = startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
     public LocalDate getCompletedDate() { return completedDate; }
     public void setCompletedDate(LocalDate completedDate){ this.completedDate = completedDate; }

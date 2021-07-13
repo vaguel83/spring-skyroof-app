@@ -22,9 +22,6 @@ import static java.util.Objects.nonNull;
 
 @RestController
 @CrossOrigin
-//@RequestMapping(path = RestConfig.API_URI, "/tasks", //This is not working probably the produces and consumes
-//        produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-//        consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
 @RequestMapping(path = RestConfig.API_URI)
 
@@ -66,7 +63,6 @@ public class TaskResource
     @PutMapping(path = "/tasks")
     public ResponseEntity<Task> update(@RequestBody Task task) throws ResourceNotFoundException
     {
-        System.out.println("Put Task called");
         if (nonNull(task.getTaskId())) {
             Task found = taskDao.findById(task.getTaskId())
                     .orElseThrow(() -> new ResourceNotFoundException("Wrong id: " + task.getTaskId()));
