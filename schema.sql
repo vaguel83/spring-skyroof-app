@@ -1,4 +1,3 @@
-
     create table project (
        project_id bigint not null auto_increment,
         creation_date datetime not null,
@@ -20,6 +19,6 @@
     ) engine=MyISAM;
 
     alter table task 
-       add constraint project_id_foreign_key
+       add constraint project_id_secondary_key
        foreign key (project_id) 
        references project (project_id);
