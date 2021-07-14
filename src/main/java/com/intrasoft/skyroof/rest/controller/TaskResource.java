@@ -6,6 +6,7 @@ import com.intrasoft.skyroof.persistence.model.Project;
 import com.intrasoft.skyroof.persistence.model.Task;
 import com.intrasoft.skyroof.rest.RestConfig;
 import com.intrasoft.skyroof.rest.exception.ResourceNotFoundException;
+import com.intrasoft.skyroof.utils.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 import javax.transaction.Transactional;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -45,6 +48,9 @@ public class TaskResource
             Project project = projectDao.findById(task.getProjectId())
                     .orElseThrow(() -> new ResourceNotFoundException("Project not found for this id: " + task.getProjectId()));
 
+            checkDateFormat(task.getStartDate(),"Wrong Start date in new task, not saved. Date Format(dd/MM/yyyy)");
+            checkDateFormat(task.getCompletedDate(),"Wrong Completed date in new task, not saved. Date Format(dd/MM/yyyy)");
+
             if(task.getState().equals("ERROR"))
             {
                 LOGGER.warning("Wrong state in new task, not saved.");
@@ -75,6 +81,9 @@ public class TaskResource
             {
                 found.setState(task.getState());
             }
+
+            checkDateFormat(task.getStartDate(),"Wrong Start date in new task, not saved. Date Format(dd/MM/yyyy)");
+            checkDateFormat(task.getCompletedDate(),"Wrong Completed date in new task, not saved. Date Format(dd/MM/yyyy)");
 
             //If projectId is found in the JSON and it is not the same with the one already assigned show error.
             if(!found.getProjectId().equals(task.getProjectId()) && task.getProjectId() != null  )
@@ -124,6 +133,19 @@ public class TaskResource
     public ResponseEntity<List<Task>> findAll()
     {
         return ResponseEntity.ok(taskDao.findAll());
+    }
+
+    private void checkDateFormat( String date, String msg) throws ResourceNotFoundException
+    {
+        try
+        {
+            LocalDate.parse(date, DateFormat.dateFormatter);
+        }
+        catch (DateTimeException e)
+        {
+            LOGGER.warning(msg);
+            throw new ResourceNotFoundException(msg);
+        }
     }
 
 }

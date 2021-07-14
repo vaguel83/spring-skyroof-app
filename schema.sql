@@ -9,10 +9,10 @@
     create table task (
        task_id bigint not null auto_increment,
         creation_date datetime not null,
-        completed_date date not null,
+        completed_date varchar(10) not null,
         description varchar(2000) not null,
         project_id bigint not null,
-        start_date date not null,
+        start_date varchar(10) not null,
         state varchar(11) not null,
         title varchar(150) not null,
         primary key (task_id)

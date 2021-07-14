@@ -2,7 +2,6 @@ package com.intrasoft.skyroof.persistence.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity(name = "task")
 @Table(name = "task")
@@ -11,9 +10,7 @@ public class Task extends Creation implements Serializable
     private static final long serialVersionUID = 1L;
 
     @PrePersist
-    public void prePersist(){
-        super.prePersist();
-    }
+    public void prePersist(){ super.prePersist(); }
 
     @Id
     @Column(name = "task_id")
@@ -37,10 +34,10 @@ public class Task extends Creation implements Serializable
     private String state;
 
     @Column(name = "start_date", length = 10, nullable = false)
-    private LocalDate startDate;
+    private String startDate;
 
     @Column(name = "completed_date", length = 10, nullable = false)
-    private LocalDate completedDate;
+    private String completedDate;
 
     public Long getTaskId() {
         return taskId;
@@ -80,10 +77,10 @@ public class Task extends Creation implements Serializable
     public Long getProjectId() { return projectId; }
     public void setProjectId(Long projectId){ this.projectId = projectId; }
 
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
 
-    public LocalDate getCompletedDate() { return completedDate; }
-    public void setCompletedDate(LocalDate completedDate){ this.completedDate = completedDate; }
+    public String getCompletedDate() { return completedDate; }
+    public void setCompletedDate(String completedDate){ this.completedDate = completedDate; }
 
 }

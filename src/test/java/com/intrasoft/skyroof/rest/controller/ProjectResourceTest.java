@@ -42,7 +42,7 @@ public class ProjectResourceTest {
 
         //Write task with state:Not started
         mvc.perform(post("/api/v1/tasks")//
-                .content(" {\"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"NOT STARTED\", \"startDate\":\"2021-07-22\", \"completedDate\":\"2021-07-30\" }")//
+                .content(" {\"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"NOT STARTED\", \"startDate\":\"22/07/2021\", \"completedDate\":\"30/07/2021\" }")//
                 .contentType(MediaType.APPLICATION_JSON))//
                 .andExpect(status().isOk())//
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))//
@@ -50,12 +50,12 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.projectId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.state").value("NOT STARTED"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2021-07-22"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("2021-07-30"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("22/07/2021"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("30/07/2021"));
 
         //Write task with completed state
         mvc.perform(post("/api/v1/tasks")//
-                .content(" {\"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"COMPLETED\", \"startDate\":\"2021-07-22\", \"completedDate\":\"2021-07-30\" }")//
+                .content(" {\"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"COMPLETED\", \"startDate\":\"22/07/2021\", \"completedDate\":\"30/07/2021\" }")//
                 .contentType(MediaType.APPLICATION_JSON))//
                 .andExpect(status().isOk())//
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))//
@@ -63,8 +63,8 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.projectId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.state").value("COMPLETED"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2021-07-22"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("2021-07-30"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("22/07/2021"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("30/07/2021"));
 
         //Delete the task with not started state (it should be deleted)
         mvc.perform(delete("/api/v1/tasks/1")//
@@ -78,7 +78,7 @@ public class ProjectResourceTest {
 
         //Update the task with state not started
         mvc.perform(put("/api/v1/tasks")//
-                .content(" {\"taskId\":\"2\", \"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"NOT STARTED\", \"startDate\":\"2021-07-22\", \"completedDate\":\"2021-07-30\" }")//
+                .content(" {\"taskId\":\"2\", \"title\":\"Title\", \"description\":\"Description\", \"projectId\":1, \"state\":\"NOT STARTED\", \"startDate\":\"22/07/2021\", \"completedDate\":\"30/07/2021\" }")//
                 .contentType(MediaType.APPLICATION_JSON))//
                 .andExpect(status().isOk())//
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))//
@@ -87,8 +87,8 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Description"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.projectId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.state").value("NOT STARTED"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2021-07-22"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("2021-07-30"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("22/07/2021"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.completedDate").value("30/07/2021"));
 
         //Delete the task 2 with not started state (it should be deleted)
         mvc.perform(delete("/api/v1/tasks/2")//
