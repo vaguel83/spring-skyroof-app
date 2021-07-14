@@ -96,6 +96,7 @@ public class TaskResource
             found.setDescription(task.getDescription());
             found.setStartDate(task.getStartDate());
             found.setCompletedDate(task.getCompletedDate());
+            LOGGER.info("Task updated with title: " + task.getTitle() + " for project with id: " + task.getProjectId());
             return ResponseEntity.ok(taskDao.save(found));
         }
         else
